@@ -5,6 +5,8 @@ from langchain.embeddings import OpenAIEmbeddings
 from langchain.vectorstores import Chroma
 from langchain.chains import RetrievalQA
 
+from langchain.vectorstores import FAISS
+
 def generate_response(uploaded_file, openai_api_key, query_text):
     # Load document if file is uploaded
     if uploaded_file is not None:
@@ -15,7 +17,8 @@ def generate_response(uploaded_file, openai_api_key, query_text):
         # Select embeddings
         embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)
         # Create a vectorstore from documents
-        db = Chroma.from_documents(texts, embeddings)
+        db = FAISS.from_documents(texts, embeddings)
+        # db = Chroma.from_documents(texts, embeddings)
         # Create retriever interface
         retriever = db.as_retriever()
         # Create QA chain
